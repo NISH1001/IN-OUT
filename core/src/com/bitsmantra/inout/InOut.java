@@ -1,28 +1,28 @@
 package com.bitsmantra.inout;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.ashley.core.*;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.bitsmantra.inout.GameScreen;
 
-public class InOut extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
-	
+public class InOut extends Game{
+	public SpriteBatch mSpriteBatch;
+	public ShapeRenderer mShapeRenderer;
+
 	@Override
-	public void create () {
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+	public void create(){
+		mSpriteBatch = new SpriteBatch();
+		mShapeRenderer = new ShapeRenderer();
+		setScreen(new GameScreen(this));
 	}
 
 	@Override
-	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+	public void render(){
+		Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
+
+		super.render();
 	}
 }
