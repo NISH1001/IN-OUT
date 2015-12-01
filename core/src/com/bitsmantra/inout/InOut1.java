@@ -9,12 +9,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.ashley.core.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector3;
 import com.bitsmantra.inout.components.AppearanceComponent;
-import com.bitsmantra.inout.components.PositionComponent;
 import com.bitsmantra.inout.components.TransformComponent;
 import com.bitsmantra.inout.systems.RenderSystem;
+import com.bitsmantra.inout.globals.Enum;
+
 
 public class InOut1 extends ApplicationAdapter {
     SpriteBatch batch;
@@ -32,7 +32,7 @@ public class InOut1 extends ApplicationAdapter {
         TransformComponent tc = new TransformComponent();
         tc.position = new Vector3(600,600,0);
         player.add(tc);
-        AppearanceComponent ac = new AppearanceComponent("circle");
+        AppearanceComponent ac = new AppearanceComponent(Enum.Shape.CIRCLE, true);
         ac.setData(new float[]{20}, new float[]{1,0,0,0});
         player.add(ac);
 

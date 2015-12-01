@@ -9,38 +9,55 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.bitsmantra.inout.components.AppearanceComponent;
-import com.bitsmantra.inout.components.PositionComponent;
 import com.bitsmantra.inout.components.TransformComponent;
+import com.bitsmantra.inout.globals.Enum;
+
+import java.util.Comparator;
 
 /**
  * Created by paradox on 11/29/15.
  */
 public class RenderSystem extends IteratingSystem{
-    static final float FRUSTUM_WIDTH = 10;
-    static final float FRUSTUM_HEIGHT = 15;
-    static final float PIXELS_TO_METRES = 1.0f / 32.0f;
+    public static final float GAME_WORLD_WIDTH = 1920;
+    public static final float GAME_WORLD_HEIGHT = 1080;
+    public static final float PIXELS_TO_METRES = 1.0f / 32.0f;
 
 
     private SpriteBatch mSpriteBatch;
     private ShapeRenderer mShapeRenderer;
-    private OrthographicCamera mCamera;
+    public static OrthographicCamera mCamera;
+    public static Viewport mViewport;
 
     private Array<Entity> mRenderQueue;
+    private Comparator<Entity> mComparator;
     //private ImmutableArray<Entity> mEntities;
-
-    private Entity mCurrentEntity = new Entity();
 
     private ComponentMapper<TransformComponent> mTransforms = ComponentMapper.getFor(TransformComponent.class);
     private ComponentMapper<AppearanceComponent> mAppearances = ComponentMapper.getFor(AppearanceComponent.class);
 
     public RenderSystem(){
         super(Family.all(TransformComponent.class, AppearanceComponent.class).get());
+
         mRenderQueue = new Array<Entity>();
-        mCamera = new OrthographicCamera(FRUSTUM_WIDTH, FRUSTUM_HEIGHT);
-        mCamera.position.set(FRUSTUM_WIDTH / 2, FRUSTUM_HEIGHT / 2, 0);
+
+        mComparator = new Comparator<Entity>() {
+            @Override
+            public int compare(Entity entityA, Entity entityB) {
+                return (int)Math.signum(mTransforms.get(entityB).position.z -
+                        mTransforms.get(entityA).position.z);
+            }
+        };
+
+        //float aspectRatio = (float)Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight();
+
+        mCamera = new OrthographicCamera();
+        mViewport = new FitViewport(GAME_WORLD_WIDTH, GAME_WORLD_HEIGHT, mCamera);
+        mViewport.apply();
+        mCamera.position.set(GAME_WORLD_WIDTH/2, GAME_WORLD_HEIGHT/2, 0);
     }
 
     public void setSpriteBatch(SpriteBatch batch){
@@ -59,8 +76,9 @@ public class RenderSystem extends IteratingSystem{
 
     public void update(float deltatime){
         super.update(deltatime);
-        System.out.println("hello");
+        mRenderQueue.sort(mComparator);
         mCamera.update();
+
         mSpriteBatch.setProjectionMatrix(mCamera.combined);
 
         mSpriteBatch.begin();
@@ -70,16 +88,20 @@ public class RenderSystem extends IteratingSystem{
             TransformComponent tc = mTransforms.get(entity);
             AppearanceComponent ac = mAppearances.get(entity);
 
-            if(ac.circle){
+            boolean fill = ac.filled;
+            ShapeRenderer.ShapeType st = (fill==true) ? ShapeRenderer.ShapeType.Filled : ShapeRenderer.ShapeType.Line;
+            Gdx.gl.glLineWidth(ac.borderWidth);
+
+            if(ac.shape == Enum.Shape.CIRCLE){
                 mShapeRenderer.setColor(ac.color[0], ac.color[1], ac.color[2], ac.color[3]);
-                mShapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                mShapeRenderer.begin(st);
                 mShapeRenderer.circle(tc.position.x, tc.position.y, ac.data[0]);
                 mShapeRenderer.end();
             }
 
-            else if(ac.rectangle){
+            else if(ac.shape == Enum.Shape.RECTANGLE){
                 mShapeRenderer.setColor(ac.color[0], ac.color[1], ac.color[2], ac.color[3]);
-                mShapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                mShapeRenderer.begin(st);
                 mShapeRenderer.rect(tc.position.x, tc.position.y, ac.data[0], ac.data[1]);
                 mShapeRenderer.end();
             }
