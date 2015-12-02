@@ -80,6 +80,7 @@ public class RenderSystem extends IteratingSystem{
         mCamera.update();
 
         mSpriteBatch.setProjectionMatrix(mCamera.combined);
+        mShapeRenderer.setProjectionMatrix(mCamera.combined);
 
         mSpriteBatch.begin();
         mSpriteBatch.end();
