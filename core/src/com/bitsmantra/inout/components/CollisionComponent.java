@@ -7,7 +7,4 @@ import com.badlogic.ashley.core.*;
  */
 public class CollisionComponent implements Component{
     public boolean collide = true;
-    public boolean get(){
-        return true;
-    }
 }

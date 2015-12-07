@@ -51,7 +51,7 @@ public class World {
 
 
     public void createWorld(){
-        float radius = Gdx.graphics.getHeight()/2-25;
+        float radius = RenderSystem.GAME_WORLD_HEIGHT/2-25;
         float gap = 100;
 
         AppearanceComponent aco1 = new AppearanceComponent(Enum.Shape.CIRCLE, false);
@@ -59,22 +59,35 @@ public class World {
                     new float[]{radius},
                     new float[]{(float) 1.0, (float) 0.5, 0, 1}
                 );
-
         this.createOrbit(
-                    new TransformComponent(new Vector3(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0.1f)),
-                    aco1
-                );
+                new TransformComponent(new Vector3(RenderSystem.GAME_WORLD_WIDTH / 2, RenderSystem.GAME_WORLD_HEIGHT / 2, 0.1f)),
+                aco1
+        );
 
         AppearanceComponent aco2 = new AppearanceComponent(Enum.Shape.CIRCLE, false);
-        aco2.setData( new float[]{radius-gap}, new float[]{(float) 1.0, (float) 0.5, (float) 0.0, 1} );
-
+        aco2.setData(new float[]{radius - gap}, new float[]{(float) 1.0, (float) 0.5, (float) 0.0, 1});
         this.createOrbit(
-                    new TransformComponent(new Vector3(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0.1f)),
-                    aco2
-                );
+                new TransformComponent(new Vector3(RenderSystem.GAME_WORLD_WIDTH / 2, RenderSystem.GAME_WORLD_HEIGHT / 2, 0.1f)),
+                aco2
+        );
+
+        /*
+        Entity rect = new Entity();
+        AppearanceComponent acr1 = new AppearanceComponent(Enum.Shape.RECTANGLE, true);
+        acr1.setData(
+                new float[]{25.0f, 50.0f},
+                new float[]{0.0f, 1.0f, 0.2f, 1.0f}
+            );
+        rect.add(acr1);
+        rect.add(
+                new TransformComponent(new Vector3(RenderSystem.GAME_WORLD_WIDTH / 2 - acr1.data[0] / 2, RenderSystem.GAME_WORLD_HEIGHT / 2 - acr1.data[1] / 2, 0.1f),
+                        20.0f
+                )
+        );
+        */
 
         Entity player = new Entity();
-        player.add(new TransformComponent(new Vector3(Gdx.graphics.getWidth() / 2, 25, 0)));
+        player.add(new TransformComponent(new Vector3(RenderSystem.GAME_WORLD_WIDTH/2, 25, 0)));
         AppearanceComponent ac = new AppearanceComponent(com.bitsmantra.inout.globals.Enum.Shape.CIRCLE, true);
         ac.setData(new float[]{20}, new float[]{1, 0, 0, 1});
         player.add(ac);
@@ -91,6 +104,26 @@ public class World {
 
         mEngine.addEntity(cam);
         mEngine.addEntity(player);
+        //mEngine.addEntity(rect);
+
+        Entity rectangle = new Entity();
+        AppearanceComponent acr2 = new AppearanceComponent(Enum.Shape.POLYGON, true);
+        acr2.setData(
+                new float[] {0,0, 100,0, 100,100, 0,100},
+                new float[] {1.0f, 0.0f, 0.0f, 1.0f}
+            );
+        acr2.setIndices(new short[] {0,1,2, 0,2,3});
+        rectangle.add(acr2);
+        rectangle.add(
+                new TransformComponent(new Vector3(RenderSystem.GAME_WORLD_WIDTH / 2, RenderSystem.GAME_WORLD_HEIGHT / 2, 0.1f),
+                        20.0f
+                )
+        );
+        rectangle.add(new TransformComponent(new Vector3(RenderSystem.GAME_WORLD_WIDTH/2, 25, 0)));
+        rectangle.add(new OrbitComponent(0));
+        rectangle.add(new MovementComponent(new Vector2(50.0f, 0.0f), new Vector2(0.0f, 0.0f), -2.0f));
+
+        mEngine.addEntity(rectangle);
     }
 
 

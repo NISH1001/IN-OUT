@@ -1,16 +1,7 @@
 package com.bitsmantra.inout;
 
 import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.bitsmantra.inout.components.AppearanceComponent;
-import com.bitsmantra.inout.components.CameraComponent;
-import com.bitsmantra.inout.components.MovementComponent;
-import com.bitsmantra.inout.components.OrbitComponent;
-import com.bitsmantra.inout.components.TransformComponent;
 import com.bitsmantra.inout.systems.MovementSystem;
 import com.bitsmantra.inout.systems.OrbitSystem;
 import com.bitsmantra.inout.systems.RenderSystem;
@@ -22,21 +13,15 @@ import sun.rmi.runtime.Log;
  * Created by paradox on 11/29/15.
  */
 public class GameScreen extends ScreenAdapter{
-    static final int GAME_READY = 0;
-    static final int GAME_RUNNING = 1;
-    static final int GAME_PAUSED = 2;
-    static final int GAME_LEVEL_END = 3;
-    static final int GAME_OVER = 4;
-
     InOut mGame;
     Engine mEngine;
     public World mWorld;
 
-    private int mState;
+    private Enum.GameState mState;
 
     public GameScreen(InOut game){
         mGame = game;
-        mState = GAME_RUNNING;
+        mState = Enum.GameState.RUNNING;
 
         mEngine = new Engine();
         mWorld = new World(mEngine);
@@ -44,6 +29,7 @@ public class GameScreen extends ScreenAdapter{
         RenderSystem renderer = new RenderSystem();
         renderer.setSpriteBatch(game.mSpriteBatch);
         renderer.setShapeRenderer(game.mShapeRenderer);
+        renderer.setmPolygonSpriteBatch(game.mPolygonSpriteBatch);
         mEngine.addSystem(renderer);
         mEngine.addSystem(new MovementSystem());
 
@@ -59,7 +45,7 @@ public class GameScreen extends ScreenAdapter{
 
         mEngine.update(deltatime);
 
-        if(mState == GAME_RUNNING){
+        if(mState == Enum.GameState.RUNNING){
             updateRunning(deltatime);
         }
     }

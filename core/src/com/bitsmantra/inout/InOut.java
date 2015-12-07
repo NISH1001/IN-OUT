@@ -3,6 +3,7 @@ package com.bitsmantra.inout;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.bitsmantra.inout.GameScreen;
@@ -11,11 +12,13 @@ import com.bitsmantra.inout.systems.RenderSystem;
 public class InOut extends Game{
 	public SpriteBatch mSpriteBatch;
 	public ShapeRenderer mShapeRenderer;
+	public PolygonSpriteBatch mPolygonSpriteBatch;
 
 	@Override
 	public void create(){
 		mSpriteBatch = new SpriteBatch();
 		mShapeRenderer = new ShapeRenderer();
+		mPolygonSpriteBatch = new PolygonSpriteBatch();
 		setScreen(new GameScreen(this));
 	}
 

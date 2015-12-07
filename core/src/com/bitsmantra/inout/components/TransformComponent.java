@@ -19,6 +19,16 @@ public class TransformComponent implements Component{
         position = pos;
     }
 
+    public TransformComponent(Vector3 pos, Vector2 origin){
+        position = pos;
+        this.origin = origin;
+    }
+
+    public TransformComponent(Vector3 pos, float rot){
+        position = pos;
+        rotation = rot;
+    }
+
     public TransformComponent(float x, float y, float z){
         position.x = x;
         position.y = y;
