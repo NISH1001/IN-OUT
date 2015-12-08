@@ -33,7 +33,7 @@ public class OrbitSystem extends IteratingSystem{
     }
 
     @Override
-    public void processEntity(Entity entity, float deltaTime) {
+    public void processEntity(Entity entity, float deltatime) {
         TransformComponent tc = mTransforms.get(entity);
         MovementComponent mc = mMovements.get(entity);
         OrbitComponent oc = mOrbits.get(entity);
@@ -44,8 +44,8 @@ public class OrbitSystem extends IteratingSystem{
         tc.position.x = (float) (R * Math.cos(radians)) + mWorld.mOribitCentre.get(oc.id).x;
         tc.position.y = (float) (R * Math.sin(radians)) + mWorld.mOribitCentre.get(oc.id).y;
 
-        tc.rotation += mc.angularVelocity;
+        tc.rotation += mc.angularVelocity * deltatime;
 
-        if(tc.rotation > 360) tc.rotation = 0;
+        if(tc.rotation >= 360) tc.rotation = 0;
     }
 }

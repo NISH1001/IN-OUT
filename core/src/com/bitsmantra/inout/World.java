@@ -51,7 +51,7 @@ public class World {
 
 
     public void createWorld(){
-        float radius = RenderSystem.GAME_WORLD_HEIGHT/2-25;
+        float radius = RenderSystem.GAME_WORLD_HEIGHT/2-100;
         float gap = 100;
 
         AppearanceComponent aco1 = new AppearanceComponent(Enum.Shape.CIRCLE, false);
@@ -59,17 +59,44 @@ public class World {
                     new float[]{radius},
                     new float[]{(float) 1.0, (float) 0.5, 0, 1}
                 );
+        aco1.borderWidth = 0.1f;
         this.createOrbit(
                 new TransformComponent(new Vector3(RenderSystem.GAME_WORLD_WIDTH / 2, RenderSystem.GAME_WORLD_HEIGHT / 2, 0.1f)),
                 aco1
         );
 
         AppearanceComponent aco2 = new AppearanceComponent(Enum.Shape.CIRCLE, false);
+        aco2.setData(
+                new float[]{radius-gap},
+                new float[]{1.0f, 0.5f, 0, 1}
+        );
+        aco2.borderWidth = 5.0f;
+        this.createOrbit(
+                new TransformComponent(new Vector3(RenderSystem.GAME_WORLD_WIDTH / 2, RenderSystem.GAME_WORLD_HEIGHT / 2, 0.1f)),
+                aco2
+        );
+
+        AppearanceComponent aco3 = new AppearanceComponent(Enum.Shape.CIRCLE, false);
+        aco3.setData(
+                new float[]{radius-2*gap},
+                new float[]{(float) 1.0, (float) 0.5, 0, 1}
+        );
+        aco3.borderWidth = 0.1f;
+        this.createOrbit(
+                new TransformComponent(new Vector3(RenderSystem.GAME_WORLD_WIDTH / 2, RenderSystem.GAME_WORLD_HEIGHT / 2, 0.1f)),
+                aco3
+        );
+
+
+
+        /*
+        AppearanceComponent aco2 = new AppearanceComponent(Enum.Shape.CIRCLE, false);
         aco2.setData(new float[]{radius - gap}, new float[]{(float) 1.0, (float) 0.5, (float) 0.0, 1});
         this.createOrbit(
                 new TransformComponent(new Vector3(RenderSystem.GAME_WORLD_WIDTH / 2, RenderSystem.GAME_WORLD_HEIGHT / 2, 0.1f)),
                 aco2
         );
+        */
 
         /*
         Entity rect = new Entity();
@@ -86,26 +113,78 @@ public class World {
         );
         */
 
-        Entity player = new Entity();
-        player.add(new TransformComponent(new Vector3(RenderSystem.GAME_WORLD_WIDTH/2, 25, 0)));
-        AppearanceComponent ac = new AppearanceComponent(com.bitsmantra.inout.globals.Enum.Shape.CIRCLE, true);
-        ac.setData(new float[]{20}, new float[]{1, 0, 0, 1});
-        player.add(ac);
-        player.add(new MovementComponent(new Vector2(50.0f, 0.0f), new Vector2(0.0f, 0.0f), 1.0f));
-        player.add(new OrbitComponent(1));
+        // red player
+        Entity player1 = new Entity();
+        player1.add(new TransformComponent(new Vector3(RenderSystem.GAME_WORLD_WIDTH / 2, 25, 0), 135.0f));
+        AppearanceComponent ac1 = new AppearanceComponent(Enum.Shape.CIRCLE, true);
+        ac1.setData(new float[]{50}, new float[]{1, 0, 0, 1});
+        player1.add(ac1);
+        player1.add(new MovementComponent(new Vector2(50.0f, 0.0f), new Vector2(0.0f, 0.0f), 0.0f));
+        player1.add(new OrbitComponent(0));
+        mEngine.addEntity(player1);
+
+        // green player
+        Entity player2 = new Entity();
+        player2.add(new TransformComponent(new Vector3(RenderSystem.GAME_WORLD_WIDTH / 2, 25, 0), 225.0f));
+        AppearanceComponent ac2 = new AppearanceComponent(Enum.Shape.CIRCLE, true);
+        ac2.setData(new float[]{50}, new float[]{0.0f, 1.0f, 0.0f, 1.0f});
+        player2.add(ac2);
+        player2.add(new MovementComponent(new Vector2(0.0f, 0.0f), new Vector2(0.0f, 0.0f), 0.0f));
+        player2.add(new OrbitComponent(0));
+        mEngine.addEntity(player2);
+
+        // blue player
+        Entity player3 = new Entity();
+        player3.add(new TransformComponent(new Vector3(RenderSystem.GAME_WORLD_WIDTH / 2, 25, 0), -45.0f));
+        AppearanceComponent ac3 = new AppearanceComponent(Enum.Shape.CIRCLE, true);
+        ac3.setData(new float[]{50}, new float[]{0.0f, 0.0f, 1.0f, 1.0f});
+        player3.add(ac3);
+        player3.add(new MovementComponent(new Vector2(0.0f, 0.0f), new Vector2(0.0f, 0.0f), 0.0f));
+        player3.add(new OrbitComponent(0));
+        mEngine.addEntity(player3);
+
+        // white player
+        Entity player4 = new Entity();
+        player4.add(new TransformComponent(new Vector3(RenderSystem.GAME_WORLD_WIDTH / 2, 25, 0), 45.0f));
+        AppearanceComponent ac4 = new AppearanceComponent(Enum.Shape.CIRCLE, true);
+        ac4.setData(new float[]{50}, new float[]{1.0f, 1.0f, 1.0f, 1.0f});
+        player4.add(ac4);
+        player4.add(new MovementComponent(new Vector2(0.0f, 0.0f), new Vector2(0.0f, 0.0f), 0.0f));
+        player4.add(new OrbitComponent(0));
+        mEngine.addEntity(player4);
+
+
+        Entity centerCrcle = new Entity();
+        centerCrcle.add(new TransformComponent(new Vector3(RenderSystem.GAME_WORLD_WIDTH / 2, RenderSystem.GAME_WORLD_HEIGHT / 2, 0)));
+        AppearanceComponent acCenterCircle = new AppearanceComponent(Enum.Shape.CIRCLE, false);
+        acCenterCircle.setData(new float[]{100}, new float[]{1.0f, 1.0f, 1.0f, 1});
+        acCenterCircle.borderWidth = 10.0f;
+        centerCrcle.add(acCenterCircle);
+        //centerDot.add(new MovementComponent(new Vector2(50.0f, 0.0f), new Vector2(0.0f, 0.0f), 1.0f));
+        //centerDot.add(new OrbitComponent(0));
+        mEngine.addEntity(centerCrcle);
+
+        Entity inoutText = new Entity();
+        TransformComponent tcInOutText = new TransformComponent(
+                new Vector3(RenderSystem.GAME_WORLD_WIDTH / 2, RenderSystem.GAME_WORLD_HEIGHT / 2, 0)
+            );
+        tcInOutText.scale = new Vector2(5,5);
+        centerCrcle.add(tcInOutText);
+        AppearanceComponent acInOutText = new AppearanceComponent(Enum.Shape.TEXT, false);
+        acInOutText.setData(new float[]{0,0}, new float[]{1.0f, 1.0f, 1.0f, 1.0f});
+        acInOutText.text = "IN-OUT";
+        inoutText.add(acInOutText);
+        mEngine.addEntity(inoutText);
 
 
         CameraComponent camera = new CameraComponent();
         camera.camera = mEngine.getSystem(RenderSystem.class).getCamera();
-        camera.target = player;
-
+        camera.target = centerCrcle;
         Entity cam = new Entity();
         cam.add(camera);
-
         mEngine.addEntity(cam);
-        mEngine.addEntity(player);
-        //mEngine.addEntity(rect);
 
+        /*
         Entity rectangle = new Entity();
         AppearanceComponent acr2 = new AppearanceComponent(Enum.Shape.POLYGON, true);
         acr2.setData(
@@ -124,6 +203,7 @@ public class World {
         rectangle.add(new MovementComponent(new Vector2(50.0f, 0.0f), new Vector2(0.0f, 0.0f), -2.0f));
 
         mEngine.addEntity(rectangle);
+        */
     }
 
 

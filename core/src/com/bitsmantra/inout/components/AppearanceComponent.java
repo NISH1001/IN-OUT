@@ -3,6 +3,7 @@ package com.bitsmantra.inout.components;
 
 import com.badlogic.ashley.core.*;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Polygon;
 import com.bitsmantra.inout.globals.*;
 import com.bitsmantra.inout.globals.Enum;
@@ -26,6 +27,9 @@ public class AppearanceComponent implements Component{
     public Polygon polygon;
     public short[] indices;
 
+    public BitmapFont font = new BitmapFont();
+    public String text = "";
+
     public AppearanceComponent(){}
 
     // accept enum and fill type
@@ -39,6 +43,9 @@ public class AppearanceComponent implements Component{
         shape = shp;
         filled = fill;
         color = Arrays.copyOf(col, col.length);
+        if(this.shape == Enum.Shape.TEXT){
+            this.font.setColor(color[0], color[1], color[2], color[3]);
+        }
     }
 
     // set data, color
@@ -50,13 +57,15 @@ public class AppearanceComponent implements Component{
         this.data = Arrays.copyOf(data, data.length);
         this.color = Arrays.copyOf(color, color.length);
         if(data.length >3) polygon = new Polygon(data);
+        if(this.shape == Enum.Shape.TEXT){
+            this.font.setColor(color[0], color[1], color[2], color[3]);
+        }
     }
 
     // set data
     public void setData(float[] data){
         this.data = Arrays.copyOf(data, data.length);
         if(data.length >3) polygon = new Polygon(data);
-
     }
 
     // if polygon, set the indices for triangles

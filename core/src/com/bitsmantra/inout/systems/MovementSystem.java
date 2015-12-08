@@ -28,11 +28,11 @@ public class MovementSystem extends IteratingSystem{
 
     @Override
     public void processEntity(Entity entity, float deltatime) {
-        /*
+
         TransformComponent tc = mTransforms.get(entity);
         MovementComponent mc = mMovements.get(entity);
         tc.position.x += mc.velocity.x * deltatime;
         tc.position.y += mc.velocity.y * deltatime;
-        */
+
     }
 }

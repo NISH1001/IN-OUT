@@ -137,6 +137,13 @@ public class RenderSystem extends IteratingSystem{
                 mPolygonSpriteBatch.end();
             }
 
+            else if(ac.shape == Enum.Shape.TEXT){
+                ac.font.getData().setScale(tc.scale.x, tc.scale.y);
+                mSpriteBatch.begin();
+                ac.font.draw(mSpriteBatch, ac.text, tc.position.x, tc.position.y);
+                mSpriteBatch.end();
+            }
+
             // f**k this shit
             else{
                 continue;

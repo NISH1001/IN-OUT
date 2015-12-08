@@ -5,7 +5,7 @@ package com.bitsmantra.inout.globals;
  */
 
 public class Enum {
-    public static enum Shape {CIRCLE, RECTANGLE, POLYGON};
+    public static enum Shape {CIRCLE, RECTANGLE, POLYGON, TEXT};
 
     public static enum GameState {READY, RUNNING, PAUSED, GAME_OVER, LEVEL_END};
 }
