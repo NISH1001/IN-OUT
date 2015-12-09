@@ -10,6 +10,8 @@ import com.bitsmantra.inout.components.AppearanceComponent;
 import com.bitsmantra.inout.components.CameraComponent;
 import com.bitsmantra.inout.components.MovementComponent;
 import com.bitsmantra.inout.components.OrbitComponent;
+import com.bitsmantra.inout.components.PlayerControlledComponent;
+import com.bitsmantra.inout.components.ScoreComponent;
 import com.bitsmantra.inout.components.TransformComponent;
 import com.bitsmantra.inout.globals.*;
 import com.bitsmantra.inout.globals.Enum;
@@ -26,6 +28,9 @@ public class World {
     public ArrayList<Vector2> mOribitCentre = new ArrayList<Vector2>();
 
     public Engine mEngine;
+
+    public ArrayList<Entity> mPlayers = new ArrayList<Entity>();
+    public Entity mInOutText;
 
     public World(Engine engine){
         mEngine = engine;
@@ -88,16 +93,6 @@ public class World {
         );
 
 
-
-        /*
-        AppearanceComponent aco2 = new AppearanceComponent(Enum.Shape.CIRCLE, false);
-        aco2.setData(new float[]{radius - gap}, new float[]{(float) 1.0, (float) 0.5, (float) 0.0, 1});
-        this.createOrbit(
-                new TransformComponent(new Vector3(RenderSystem.GAME_WORLD_WIDTH / 2, RenderSystem.GAME_WORLD_HEIGHT / 2, 0.1f)),
-                aco2
-        );
-        */
-
         /*
         Entity rect = new Entity();
         AppearanceComponent acr1 = new AppearanceComponent(Enum.Shape.RECTANGLE, true);
@@ -121,6 +116,8 @@ public class World {
         player1.add(ac1);
         player1.add(new MovementComponent(new Vector2(50.0f, 0.0f), new Vector2(0.0f, 0.0f), 0.0f));
         player1.add(new OrbitComponent(0));
+        player1.add(new ScoreComponent());
+        player1.add(new PlayerControlledComponent());
         mEngine.addEntity(player1);
 
         // green player
@@ -131,6 +128,8 @@ public class World {
         player2.add(ac2);
         player2.add(new MovementComponent(new Vector2(0.0f, 0.0f), new Vector2(0.0f, 0.0f), 0.0f));
         player2.add(new OrbitComponent(0));
+        player2.add(new ScoreComponent());
+        player2.add(new PlayerControlledComponent());
         mEngine.addEntity(player2);
 
         // blue player
@@ -141,6 +140,8 @@ public class World {
         player3.add(ac3);
         player3.add(new MovementComponent(new Vector2(0.0f, 0.0f), new Vector2(0.0f, 0.0f), 0.0f));
         player3.add(new OrbitComponent(0));
+        player3.add(new ScoreComponent());
+        player3.add(new PlayerControlledComponent());
         mEngine.addEntity(player3);
 
         // white player
@@ -151,6 +152,8 @@ public class World {
         player4.add(ac4);
         player4.add(new MovementComponent(new Vector2(0.0f, 0.0f), new Vector2(0.0f, 0.0f), 0.0f));
         player4.add(new OrbitComponent(0));
+        player4.add(new ScoreComponent());
+        player4.add(new PlayerControlledComponent());
         mEngine.addEntity(player4);
 
 
@@ -166,15 +169,64 @@ public class World {
 
         Entity inoutText = new Entity();
         TransformComponent tcInOutText = new TransformComponent(
-                new Vector3(RenderSystem.GAME_WORLD_WIDTH / 2, RenderSystem.GAME_WORLD_HEIGHT / 2, 0)
+                new Vector3(RenderSystem.GAME_WORLD_WIDTH / 2 - 10, RenderSystem.GAME_WORLD_HEIGHT / 2 - 5, 0)
             );
-        tcInOutText.scale = new Vector2(5,5);
-        centerCrcle.add(tcInOutText);
-        AppearanceComponent acInOutText = new AppearanceComponent(Enum.Shape.TEXT, false);
+        tcInOutText.scale = new Vector2(3,3);
+        inoutText.add(tcInOutText);
+        AppearanceComponent acInOutText = new AppearanceComponent(Enum.Shape.TEXT, true);
         acInOutText.setData(new float[]{0,0}, new float[]{1.0f, 1.0f, 1.0f, 1.0f});
-        acInOutText.text = "IN-OUT";
+        acInOutText.text = ":D";
         inoutText.add(acInOutText);
-        mEngine.addEntity(inoutText);
+        mInOutText = inoutText;
+        mEngine.addEntity(mInOutText);
+
+        Entity score1 = new Entity();
+        TransformComponent tcScore1 = new TransformComponent(
+                new Vector3(50, RenderSystem.GAME_WORLD_HEIGHT- 50, 0)
+        );
+        tcScore1.scale = new Vector2(5,5);
+        score1.add(tcScore1);
+        AppearanceComponent acScore1 = new AppearanceComponent(Enum.Shape.TEXT, true);
+        acScore1.setData(new float[]{0,0}, new float[]{1.0f, 1.0f, 1.0f, 1.0f});
+        acScore1.text = "p1";
+        score1.add(acScore1);
+        mEngine.addEntity(score1);
+
+        Entity score2 = new Entity();
+        TransformComponent tcScore2 = new TransformComponent(
+                new Vector3(50, 100, 0)
+        );
+        tcScore2.scale = new Vector2(5,5);
+        score2.add(tcScore2);
+        AppearanceComponent acScore2 = new AppearanceComponent(Enum.Shape.TEXT, true);
+        acScore2.setData(new float[]{0,0}, new float[]{1.0f, 1.0f, 1.0f, 1.0f});
+        acScore2.text = "p2";
+        score2.add(acScore2);
+        mEngine.addEntity(score2);
+
+        Entity score3 = new Entity();
+        TransformComponent tcScore3 = new TransformComponent(
+                new Vector3(RenderSystem.GAME_WORLD_WIDTH-100, 100, 0)
+        );
+        tcScore3.scale = new Vector2(5,5);
+        score3.add(tcScore3);
+        AppearanceComponent acScore3 = new AppearanceComponent(Enum.Shape.TEXT, true);
+        acScore3.setData(new float[]{0,0}, new float[]{1.0f, 1.0f, 1.0f, 1.0f});
+        acScore3.text = "p3";
+        score3.add(acScore3);
+        mEngine.addEntity(score3);
+
+        Entity score4 = new Entity();
+        TransformComponent tcScore4 = new TransformComponent(
+                new Vector3(RenderSystem.GAME_WORLD_WIDTH-100, RenderSystem.GAME_WORLD_HEIGHT - 100, 0)
+        );
+        tcScore4.scale = new Vector2(5,5);
+        score4.add(tcScore4);
+        AppearanceComponent acScore4 = new AppearanceComponent(Enum.Shape.TEXT, true);
+        acScore4.setData(new float[]{0,0}, new float[]{1.0f, 1.0f, 1.0f, 1.0f});
+        acScore4.text = "p4";
+        score4.add(acScore4);
+        mEngine.addEntity(score4);
 
 
         CameraComponent camera = new CameraComponent();
@@ -204,7 +256,10 @@ public class World {
 
         mEngine.addEntity(rectangle);
         */
+
+        mPlayers.add(player1);
+        mPlayers.add(player2);
+        mPlayers.add(player3);
+        mPlayers.add(player4);
     }
-
-
 }

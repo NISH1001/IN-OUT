@@ -2,6 +2,7 @@ package com.bitsmantra.inout;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.ScreenAdapter;
+import com.bitsmantra.inout.systems.InOutSystem;
 import com.bitsmantra.inout.systems.MovementSystem;
 import com.bitsmantra.inout.systems.OrbitSystem;
 import com.bitsmantra.inout.systems.RenderSystem;
@@ -37,6 +38,10 @@ public class GameScreen extends ScreenAdapter{
         orbiter.setWorld(mWorld);
         mEngine.addSystem(orbiter);
 
+        InOutSystem inoutSystem = new InOutSystem();
+        inoutSystem.setWorld(mWorld);
+        mEngine.addSystem(inoutSystem);
+
         mWorld.createWorld();
     }
 
@@ -54,6 +59,7 @@ public class GameScreen extends ScreenAdapter{
         mEngine.getSystem(RenderSystem.class).setProcessing(true);
         mEngine.getSystem(MovementSystem.class).setProcessing(true);
         mEngine.getSystem(OrbitSystem.class).setProcessing(true);
+        mEngine.getSystem(InOutSystem.class).setProcessing(true);
     }
 
     @Override

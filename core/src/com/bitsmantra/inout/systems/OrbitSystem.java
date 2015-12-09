@@ -45,6 +45,7 @@ public class OrbitSystem extends IteratingSystem{
         tc.position.y = (float) (R * Math.sin(radians)) + mWorld.mOribitCentre.get(oc.id).y;
 
         tc.rotation += mc.angularVelocity * deltatime;
+        mc.angularVelocity += mc.angularAcceleration;
 
         if(tc.rotation >= 360) tc.rotation = 0;
     }

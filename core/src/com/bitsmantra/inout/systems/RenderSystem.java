@@ -3,7 +3,9 @@ package com.bitsmantra.inout.systems;
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.graphics.g2d.PolygonSprite;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
@@ -77,8 +79,9 @@ public class RenderSystem extends IteratingSystem{
         mSpriteBatch.setProjectionMatrix(mCamera.combined);
         mShapeRenderer.setProjectionMatrix(mCamera.combined);
 
-        mSpriteBatch.begin();
-        mSpriteBatch.end();
+        BitmapFont font = new BitmapFont();
+        font.setColor(Color.WHITE);
+        font.getData().setScale(5, 5);
 
         /*
         PolygonRegion polygonRegion = Global.createPolygon(new float[] {1.0f, 0.0f, 0.0f, 1.0f},new float[] {0,0, 0,100, 100,0, 100,100},

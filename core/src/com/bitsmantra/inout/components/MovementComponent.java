@@ -10,6 +10,7 @@ public class MovementComponent implements Component{
     public Vector2 velocity = new Vector2(0.0f, 0.0f);
     public Vector2 acceleration = new Vector2(0.0f, 0.0f);
     public float angularVelocity = 0.0f;
+    public float angularAcceleration = 0.0f;
 
     public MovementComponent(){
     }
